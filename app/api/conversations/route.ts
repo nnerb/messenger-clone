@@ -31,7 +31,7 @@ export async function POST(
                     isGroup,
                     users: {
                         connect: [
-                            ... members.map((member: {value: string} ) => ({
+                            ... members.map((member: { value: string } ) => ({
                                 id: member.value
                             })),
                             {
@@ -97,7 +97,7 @@ export async function POST(
             }
         });
 
-        newConversation.users.forEach((user) => {
+        newConversation.users.map((user) => {
             if (user.email) {
                 pusherServer.trigger(user.email, 'conversation:new', newConversation);
             }
