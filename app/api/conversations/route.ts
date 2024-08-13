@@ -45,12 +45,17 @@ export async function POST(
                 }
             });
 
-            newConversations.users.forEach((user) => {
-                if (user.email) {
-                    pusherServer.trigger(user.email, 'conversation:new', newConversation);
-                }
-            })
-
+            try {
+                newConversations.users.forEach(user => {
+                    if (user.email) {
+                        pusherServer.trigger(user.email, 'conversation:new', newConversations)
+                        .catch(pusherError => console.error('Pusher error:', pusherError));
+                    }
+                });
+            } catch (pusherError) {
+                console.error('Error triggering Pusher event:', pusherError);
+            }
+        
             return NextResponse.json(newConversations);
         }
 

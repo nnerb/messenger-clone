@@ -51,10 +51,14 @@ const GroupChatModal: React.FC<GroupChatModalProps> = ({
             isGroup: true
         })
         .then(() => {
+            toast.success("Group chat created!")
             router.refresh();
             onClose();
         })
-        .catch(() => toast.error('Something went wrong!'))
+        .catch((error) => { 
+            console.log("Error", error)
+            return toast.error('Something went wrong!')
+        })
         .finally(() => setIsLoading(false));
     }
 
